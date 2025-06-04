@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 
 import { authClient } from "@/lib/auth-client";
 import { Card, CardContent } from "@/components/ui/card";
@@ -49,11 +50,33 @@ export const SignInView = () => {
         {
           email: data.email,
           password: data.password,
+          callbackURL: "/",
         },
         {
           onSuccess: () => {
             router.push("/");
           },
+          onError: ({ error }) => {
+            setError(error.message);
+          },
+        },
+      )
+      .finally(() => {
+        setPending(false);
+      });
+  };
+
+  const onSocial = (provider: "google" | "github") => {
+    setError(null);
+    setPending(true);
+
+    authClient.signIn
+      .social(
+        {
+          provider: provider,
+          callbackURL: "/",
+        },
+        {
           onError: ({ error }) => {
             setError(error.message);
           },
@@ -134,17 +157,19 @@ export const SignInView = () => {
                     type="button"
                     variant="outline"
                     className="w-full"
+                    onClick={() => onSocial("google")}
                     disabled={pending}
                   >
-                    Google
+                    <FaGoogle /> Google
                   </Button>
                   <Button
                     type="button"
                     variant="outline"
                     className="w-full"
+                    onClick={() => onSocial("github")}
                     disabled={pending}
                   >
-                    GitHub
+                    <FaGithub /> GitHub
                   </Button>
                 </div>
                 <div className="text-center text-sm">
