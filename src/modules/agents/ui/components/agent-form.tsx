@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import { AgentGetOne } from "@/modules/agents/types";
 import { useTRPC } from "@/trpc/client";
@@ -33,6 +34,7 @@ export const AgentForm = ({
   onCancel,
   onSuccess,
 }: AgentFormProps) => {
+  const router = useRouter();
   const trpc = useTRPC();
   const queryClient = useQueryClient();
 
@@ -42,14 +44,18 @@ export const AgentForm = ({
         await queryClient.invalidateQueries(
           trpc.agents.getMany.queryOptions({}),
         );
+        await queryClient.invalidateQueries(
+          trpc.premium.getFreeUsage.queryOptions(),
+        );
 
-        // TODO: invalidate free tier usage
         onSuccess?.();
       },
       onError: (error) => {
         toast.error(error.message);
 
-        // TODO: check if error code is "FORBIDDEN", redirect to "/upgrade"
+        if (error.data?.code === "FORBIDDEN") {
+          router.push("/upgrade");
+        }
       },
     }),
   );
@@ -69,8 +75,6 @@ export const AgentForm = ({
       },
       onError: (error) => {
         toast.error(error.message);
-
-        // TODO: check if error code is "FORBIDDEN", redirect to "/upgrade"
       },
     }),
   );

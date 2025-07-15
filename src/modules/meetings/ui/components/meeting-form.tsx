@@ -6,6 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { useTRPC } from "@/trpc/client";
 import {
@@ -37,6 +38,7 @@ export const MeetingForm = ({
   onCancel,
   onSuccess,
 }: MeetingFormProps) => {
+  const router = useRouter();
   const trpc = useTRPC();
   const queryClient = useQueryClient();
 
@@ -57,13 +59,18 @@ export const MeetingForm = ({
           trpc.meetings.getMany.queryOptions({}),
         );
 
-        // TODO: invalidate free tier usage
+        await queryClient.invalidateQueries(
+          trpc.premium.getFreeUsage.queryOptions(),
+        );
+
         onSuccess?.(data.id);
       },
       onError: (error) => {
         toast.error(error.message);
 
-        // TODO: check if error code is "FORBIDDEN", redirect to "/upgrade"
+        if (error.data?.code === "FORBIDDEN") {
+          router.push("/upgrade");
+        }
       },
     }),
   );
@@ -83,8 +90,6 @@ export const MeetingForm = ({
       },
       onError: (error) => {
         toast.error(error.message);
-
-        // TODO: check if error code is "FORBIDDEN", redirect to "/upgrade"
       },
     }),
   );
