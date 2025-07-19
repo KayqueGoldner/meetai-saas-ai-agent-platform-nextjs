@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MeetAI SaaS AI Agent Platform
 
-## Getting Started
+> A modern SaaS platform for managing AI agents, meetings, and premium subscriptions, built with Next.js 15, React 19, Drizzle ORM, and a modular architecture.
 
-First, run the development server:
+![Application Screenshot](/meetai-saas-ai-agent-platform.png "Application Screenshot")
+![Application Screenshot](/meetai-saas-ai-agent-platform-pricing.png "Application Screenshot")
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **AI Agent Management**: Create, view, and manage AI agents with customizable parameters.
+- **Meetings Module**: Schedule, join, and manage meetings with real-time video and chat (Stream integration).
+- **Authentication**: Secure login with email/password and social providers (Google, GitHub) via Better Auth.
+- **Premium Subscriptions**: Upgrade to premium plans and manage billing using Polar integration.
+- **Dashboard**: Responsive dashboard with sidebar navigation, data tables, and pagination.
+- **Notifications**: Toast notifications for user feedback (Sonner).
+- **Modern UI**: Built with TailwindCSS and Shadcn UI components for a clean, accessible interface.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Backend**: tRPC, Drizzle ORM, PostgreSQL
+- **Authentication**: Better Auth, Polar
+- **Video/Chat**: Stream Video & Chat SDKs
+- **UI/UX**: TailwindCSS, Shadcn UI, Lucide Icons
+- **State/Data**: TanStack React Query, Zod, Zustand
 
-## Learn More
+## 📦 Notable Packages
 
-To learn more about Next.js, take a look at the following resources:
+- `@trpc/server`, `@tanstack/react-query`, `drizzle-orm`, `react-hook-form`, `zod`, `zustand`, `sonner`, `lucide-react`, `date-fns`, `clsx`, `cmdk`, `embla-carousel-react`, `react-day-picker`, `react-error-boundary`, `react-markdown`, `recharts`, `vaul`, and more.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📂 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `src/app/` — Next.js app directory (routing, layouts, pages)
+- `src/modules/` — Feature modules (agents, meetings, premium, auth, dashboard, call)
+- `src/components/` — Reusable UI components (tables, dialogs, forms, etc.)
+- `src/db/` — Drizzle ORM schema and database logic
+- `src/trpc/` — tRPC routers and server/client setup
+- `public/` — Static assets (SVGs, prompts, etc.)
 
-## Deploy on Vercel
+## ⚡ Getting Started
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   bun install
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. **Configure environment variables**
+   - Create a `.env` file in the root with the following (see `.env.example` if available):
+     ```env
+      # Global
+      NEXT_PUBLIC_APP_URL="http://localhost:3000"
+
+      # Database
+      DATABASE_URL=""
+
+      # better-auth
+      BETTER_AUTH_SECRET=
+      BETTER_AUTH_URL=http://localhost:3000 #Base URL of your app
+      GITHUB_CLIENT_ID=
+      GITHUB_CLIENT_SECRET=
+      GOOGLE_CLIENT_ID=
+      GOOGLE_CLIENT_SECRET=
+
+      # GetStream
+      NEXT_PUBLIC_STREAM_VIDEO_API_KEY=
+      NEXT_PUBLIC_STREAM_CHAT_API_KEY=
+      STREAM_VIDEO_SECRET_KEY=
+      STREAM_CHAT_SECRET_KEY=
+
+      # OpenAI
+      OPENAI_API_KEY=
+
+      # Polar sh
+      POLAR_ACCESS_TOKEN=
+     ```
+
+3. **Set up the database**
+   ```bash
+   npm run db:push
+   # or
+   bun run db:push
+   ```
+
+4. **Run the development server**
+   ```bash
+   npm run dev
+   # or
+   bun run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 🔒 Authentication
+
+- Email/password and OAuth (Google, GitHub) via Better Auth
+- Role-based access and session management
+
+## 💳 Premium & Billing
+
+- Upgrade to premium plans via Polar
+- Subscription management and billing portal
+
+## 🤝 Contributing
+
+1. Fork this repository
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m 'Add feature'`)
+4. Push to your branch (`git push origin feature/your-feature`)
+5. Open a Pull Request
+
+All contributions are welcome!
